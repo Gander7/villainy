@@ -16,7 +16,7 @@ export default props => (
             <NavItem>Villains</NavItem>
           </LinkContainer>
 
-          <LinkContainer to={'/myprofile'}>
+          <LinkContainer to={'/profile'}>
             <NavItem>Me</NavItem>
           </LinkContainer>
 
