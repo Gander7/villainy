@@ -33,6 +33,19 @@ namespace villainy.Controllers
                       : villain;
         }
 
+        [HttpPost]
+        public IActionResult AddVillain([FromBody]Villain item)
+        {
+            Console.WriteLine("Adding Villain");
+            Villains.Add(item);
+
+            return Ok(new 
+            {
+                success = true,
+                returncode = "200"
+            });
+        }
+
         public class Villain
         {
           public string Name { get; set; }

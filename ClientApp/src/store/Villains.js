@@ -21,17 +21,32 @@ export const actionCreators = {
 
     requestVillain: (name) => async (dispatch, getState) => {
         dispatch({ type: requestVillainType });
+        
         const url = `api/Villains/GetVillain/${name}`;
         const res = await(fetch(url));
-        console.log(res);
         const villain = await res.json();
-        console.log(name);
 
         dispatch({ type: receiveVillainType, villain });
     },
 
     addVillain: (villain) => async (dispatch, getState) => {
-        dispatch({ type: addVillainType, villain });
+        const baseURL = "/api/villains";
+
+        const data = JSON.stringify(
+            { name: villain.name, powers: villain.powers, hobbies: villain.hobbies }
+        );
+
+        const fetchTask = fetch(baseURL, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: data
+        })
+            .then((data) => {
+                dispatch({ type: addVillainType, villain: data });
+            });
     }
 };
 
@@ -70,13 +85,8 @@ export const reducer = (state, action) => {
     }
 
     if (action.type === addVillainType) {
-        var newvillains = allvillains;
-
-        newvillains.push({ name: action.villain.name, powers: action.villain.powers, hobbies: action.villain.hobbies })
-
         return {
             ...state,
-            villains: newvillains,
             isLoading: false
         };
     }

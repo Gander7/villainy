@@ -19,7 +19,7 @@ class FellowVillains extends Component {
   addVillain() {
     const villain = { name: this.state.name, powers: this.state.powers, hobbies: this.state.powers };
     this.props.addVillain(villain);
-    this.props.requestVillains();
+    setTimeout(this.props.requestVillains, 600);
   };
 
   render() {
