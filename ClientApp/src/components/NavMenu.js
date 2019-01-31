@@ -8,7 +8,7 @@ export default props => (
     <Navbar color="light" light expand="md">
       <Nav className="ml-auto" navbar>
           <NavItem >
-            <NavLink tag={Link} exact to='/'>Home</NavLink>
+            <NavLink tag={Link} to='/'>Home</NavLink>
           </NavItem>
 
           <NavItem>

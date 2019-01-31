@@ -1,36 +1,36 @@
 const requestVillainsType = 'REQUEST_VILLAINS';
 const receiveVillainsType = 'RECEIVE_VILLAINS';
+const requestVillainType = 'REQUEST_VILLAIN';
+const receiveVillainType = 'RECEIVE_VILLAIN';
 const addVillainType = 'ADD_VILLAIN';
-const initialState = { villains: [], isLoading: false };
+const initialState = { villains: [], villain: {}, isLoading: false };
 
-const allvillains = [
-    {
-        name: "Junq",
-        powers: "Can make weapons and gadgets out of anything available",
-        hobbies: "Crochet, macrame, kidnapping"
-    },
-    {
-        name: "Darkness",
-        powers: "Converts light into darkness",
-        hobbies: "Robbing banks, blackmail, puzzles"
-    },
-    {
-        name: "Blast Wave",
-        powers: "Generates concussive blasts with his hands",
-        hobbies: "General villainy, doggie dancing"
-    }
-]
+let allvillains = [];
+let currentVillain = {};
 
 export const actionCreators = {
     requestVillains: () => async (dispatch, getState) => {
-
         dispatch({ type: requestVillainsType });
+
+        const url = `api/Villains`;
+        const res = await(fetch(url));
+        const allvillains = await res.json();
 
         dispatch({ type: receiveVillainsType, allvillains });
     },
 
-    addVillain: (villain) => async (dispatch, getState) => {
+    requestVillain: (name) => async (dispatch, getState) => {
+        dispatch({ type: requestVillainType });
+        const url = `api/Villains/GetVillain/${name}`;
+        const res = await(fetch(url));
+        console.log(res);
+        const villain = await res.json();
+        console.log(name);
 
+        dispatch({ type: receiveVillainType, villain });
+    },
+
+    addVillain: (villain) => async (dispatch, getState) => {
         dispatch({ type: addVillainType, villain });
     }
 };
@@ -51,6 +51,22 @@ export const reducer = (state, action) => {
             villains: action.allvillains,
             isLoading: false
         };
+    }
+
+    if (action.type === requestVillainType) {
+        return {
+            ...state,
+            isLoading: true,
+        }
+    }
+
+    if (action.type === receiveVillainType) {
+        currentVillain = action.villain;
+        return {
+            ...state,
+            isLoading: false,
+            villain: currentVillain,
+        }
     }
 
     if (action.type === addVillainType) {

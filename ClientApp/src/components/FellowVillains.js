@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { actionCreators } from '../store/Villains';
 
 class FellowVillains extends Component {
@@ -31,22 +30,24 @@ class FellowVillains extends Component {
         {this.renderVillainsTable(this.props)}
 
         <table>
-          <tr>
-            <td>Name:</td>
-            <td><input id="villainName" type="text" value={this.state.name} onChange={(ev) => this.setState({ name: ev.target.value })}></input></td>
-          </tr>
-          <tr>
-            <td>Powers:</td>
-            <td><input id="villainPowers" type="text" value={this.state.powers} onChange={(ev) => this.setState({ powers: ev.target.value })}></input></td>
-          </tr>
-          <tr>
-            <td>Hobbies:</td>
-            <td><input id="villainHobbies" type="text" value={this.state.hobbies} onChange={(ev) => this.setState({ hobbies: ev.target.value })}></input></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><button onClick={this.addVillain.bind(this)}>Add</button></td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Name:</td>
+              <td><input id="villainName" type="text" value={this.state.name} onChange={(ev) => this.setState({ name: ev.target.value })}></input></td>
+            </tr>
+            <tr>
+              <td>Powers:</td>
+              <td><input id="villainPowers" type="text" value={this.state.powers} onChange={(ev) => this.setState({ powers: ev.target.value })}></input></td>
+            </tr>
+            <tr>
+              <td>Hobbies:</td>
+              <td><input id="villainHobbies" type="text" value={this.state.hobbies} onChange={(ev) => this.setState({ hobbies: ev.target.value })}></input></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><button onClick={this.addVillain.bind(this)}>Add</button></td>
+            </tr>
+          </tbody>
         </table>
       </div>
     );

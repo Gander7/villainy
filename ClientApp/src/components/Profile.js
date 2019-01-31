@@ -1,12 +1,52 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { actionCreators } from '../store/Villains';
 
-const MyProfile = props => (
-    <div>
-        <h1>Me</h1>
-        <p>This is my personal page</p>
-        <p>Here you will be able to edit and view your profile</p>
-    </div>
-);
+class Profile extends Component {
 
-export default connect()(MyProfile);
+    componentWillMount() {
+        this.props.requestVillain("junq");
+    }
+
+    renderItem(villain) {
+        return (
+            <tr key={villain.name}>
+              <td>{villain.name}</td>
+              <td>{villain.powers}</td>
+              <td>{villain.hobbies}</td>
+            </tr>
+        );
+    }
+
+    renderVillianTable(props) {
+        return (
+            <table className='table'>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Powers</th>
+                  <th>Hobbies</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.renderItem(props.villain)}
+              </tbody>
+            </table>
+          )
+    }
+
+    render() {
+        return (
+          <div>
+              <h1>Fellow Villain</h1>
+              {this.renderVillianTable(this.props)}
+          </div>  
+        );
+    }
+}
+
+export default connect(
+    state => state.villains,
+    dispatch => bindActionCreators(actionCreators, dispatch)
+)(Profile);
