@@ -1,29 +1,27 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import { NavItem } from 'reactstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
 export default props => (
-  <nav className="navbar navbar-expand-lg navbar-light">
-    <div className="collapse navbar-collapse" id="navbarSupport">
-      <ul className="navbar-nav mr-auto">
-          <LinkContainer to={'/'} exact>
-            <NavItem>Home</NavItem>
-          </LinkContainer>
+    <Navbar color="light" light expand="md">
+      <Nav className="ml-auto" navbar>
+          <NavItem >
+            <NavLink tag={Link} exact to='/'>Home</NavLink>
+          </NavItem>
 
-          <LinkContainer to={'/FellowVillains'}>
-            <NavItem>Villains</NavItem>
-          </LinkContainer>
+          <NavItem>
+            <NavLink tag={Link} to='/FellowVillains'>Villains</NavLink>
+          </NavItem>
 
-          <LinkContainer to={'/profile'}>
-            <NavItem>Me</NavItem>
-          </LinkContainer>
+          <NavItem>
+            <NavLink tag={Link} to='/profile'>Me</NavLink>
+          </NavItem>
 
-          <LinkContainer to={'/signin'}>
-            <NavItem>Sign In</NavItem>
-          </LinkContainer>
-      </ul>
-    </div>
-  </nav>
+          <NavItem>
+            <NavLink tag={Link} to='/signin'>Sign In</NavLink>
+          </NavItem>
+      </Nav>
+    </Navbar>   
 );

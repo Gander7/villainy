@@ -4,15 +4,15 @@ import NavMenu from './NavMenu';
 
 export default props => (
     <Container fluid>
-        <Row>
-            <Col sm={12}>
+        <Row className="justify-content-center">
+            <Col sm="4" >
                 <Row className="justify-content-center">
                     <Col>
                         <NavMenu />
                     </Col>
                 </Row>
                 <Row className="justify-content-center">
-                    <Col className="justify-content-left">
+                    <Col>
                         {props.children}
                     </Col>
                 </Row>
