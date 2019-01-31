@@ -1,45 +1,29 @@
 import React from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import { NavItem } from 'reactstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import './NavMenu.css';
 
-export default class NavMenu extends React.Component {
-  constructor (props) {
-    super(props);
+export default props => (
+  <nav className="navbar navbar-expand-lg navbar-light">
+    <div className="collapse navbar-collapse" id="navbarSupport">
+      <ul className="navbar-nav mr-auto">
+          <LinkContainer to={'/'} exact>
+            <NavItem>Home</NavItem>
+          </LinkContainer>
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false
-    };
-  }
-  toggle () {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-  render () {
-    return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light >
-          <Container>
-            <NavbarBrand tag={Link} to="/">villainy</NavbarBrand>
-            <NavbarToggler onClick={this.toggle} className="mr-2" />
-            <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
-              <ul className="navbar-nav flex-grow">
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-                </NavItem>
-              </ul>
-            </Collapse>
-          </Container>
-        </Navbar>
-      </header>
-    );
-  }
-}
+          <LinkContainer to={'/FellowVillains'}>
+            <NavItem>Villains</NavItem>
+          </LinkContainer>
+
+          <LinkContainer to={'/myprofile'}>
+            <NavItem>Me</NavItem>
+          </LinkContainer>
+
+          <LinkContainer to={'/signin'}>
+            <NavItem>Sign In</NavItem>
+          </LinkContainer>
+      </ul>
+    </div>
+  </nav>
+);
