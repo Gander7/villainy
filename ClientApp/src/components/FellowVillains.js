@@ -9,6 +9,7 @@ class FellowVillains extends Component {
     name: "",
     powers: "",
     hobbies: "",
+    editing: "",
   };
 
   componentWillMount() {
@@ -21,6 +22,79 @@ class FellowVillains extends Component {
     this.props.addVillain(villain);
     setTimeout(this.props.requestVillains, 600);
   };
+
+  toggleEditing(itemId) {
+    this.setState({ editing: itemId });
+  }
+
+  handleVillainUpdate(villain) {
+    this.props.updateVillain(villain);
+    setTimeout(this.props.requestVillains, 600);
+  }
+
+  handleEditField(event) {
+    if (event.keyCode === 13) {
+      let target = event.target,
+          update = {}
+    
+      update.name = this.state.editing;
+      update[target.name] = target.value;
+    }
+  }
+
+  handleEditItem() {
+    let itemId = this.state.editing;
+
+    var editVillain = this.props.villains.find((v) => v.name === itemId);
+
+    editVillain.powers = this.refs[`powers_${itemId}`].value;
+    editVillain.hobbies = this.refs[`hobbies_${itemId}`].value;
+
+    this.handleVillainUpdate(editVillain);
+    this.setState({ editing: "" });
+  }
+
+  renderItemOrEditField(villain) {
+    if (this.state.editing === villain.name) {
+      return (
+        <tr key={villain.name}>
+          <td>{villain.name}</td>
+          <td>
+            <input 
+              onKeyDown={this.handleEditField}
+              type="text"
+              ref={`powers_${villain.name}`}
+              name="powers"
+              defaultValue={villain.powers}
+            />
+          </td>
+          <td>
+          <input 
+              onKeyDown={this.handleEditField}
+              type="text"
+              ref={`hobbies_${villain.name}`}
+              name="hobbies"
+              defaultValue={villain.hobbies}
+            />
+          </td>
+          <td className="col-xs-12 col-sm-3">
+            <button onClick={this.handleEditItem.bind(this)} label="Update Item">Update</button>
+          </td>
+        </tr>
+      )
+    } else {
+      return (
+        <tr key={villain.name}
+          onClick={this.toggleEditing.bind(this, villain.name)}
+        >
+          <td>{villain.name}</td>
+          <td>{villain.powers}</td>
+          <td>{villain.hobbies}</td>
+          <td></td>
+        </tr>
+      )
+    }
+  }
 
   render() {
     return (
@@ -65,11 +139,7 @@ class FellowVillains extends Component {
         </thead>
         <tbody>
           {props.villains.map(villain => 
-            <tr key={villain.name}>
-              <td>{villain.name}</td>
-              <td>{villain.powers}</td>
-              <td>{villain.hobbies}</td>
-            </tr>
+            this.renderItemOrEditField(villain)
           )}
         </tbody>
       </table>

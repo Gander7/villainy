@@ -46,6 +46,24 @@ namespace villainy.Controllers
             });
         }
 
+        [HttpPut]
+        public IActionResult Update([FromBody]Villain villain)
+        {
+          Console.WriteLine("Updating Villain");
+          var toUpdate = Villains.Find((v) => v.Name == villain.Name);
+
+          if (toUpdate == null) return NotFound();
+
+          toUpdate.Powers = villain.Powers;
+          toUpdate.Hobbies = villain.Hobbies;
+
+          return Ok(new
+          {
+            success = true,
+            returncode = "200"
+          });
+        }
+
         public class Villain
         {
           public string Name { get; set; }

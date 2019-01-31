@@ -3,6 +3,7 @@ const receiveVillainsType = 'RECEIVE_VILLAINS';
 const requestVillainType = 'REQUEST_VILLAIN';
 const receiveVillainType = 'RECEIVE_VILLAIN';
 const addVillainType = 'ADD_VILLAIN';
+const updateVillainType = 'UPDATE_VILLAIN';
 const initialState = { villains: [], villain: {}, isLoading: false };
 
 let allvillains = [];
@@ -21,7 +22,7 @@ export const actionCreators = {
 
     requestVillain: (name) => async (dispatch, getState) => {
         dispatch({ type: requestVillainType });
-        
+
         const url = `api/Villains/GetVillain/${name}`;
         const res = await(fetch(url));
         const villain = await res.json();
@@ -43,9 +44,27 @@ export const actionCreators = {
                 "Content-Type": "application/json",
             },
             body: data
-        })
-            .then((data) => {
+        }).then((data) => {
                 dispatch({ type: addVillainType, villain: data });
+            });
+    },
+
+    updateVillain: (villain) => async (dispatch, getState) => {
+        const baseURL = `/api/villains`;
+
+        const data = JSON.stringify(
+            { name: villain.name, powers: villain.powers, hobbies: villain.hobbies }
+        );
+
+        const fetchTask = fetch(baseURL, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: data
+        }).then((data) => {
+                dispatch({ type: updateVillainType, villain: data });
             });
     }
 };
@@ -89,6 +108,13 @@ export const reducer = (state, action) => {
             ...state,
             isLoading: false
         };
+    }
+
+    if (action.type == updateVillainType) {
+        return {
+            ...state,
+            isLoading: false
+        }
     }
 
     return state;
