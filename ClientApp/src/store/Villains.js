@@ -4,6 +4,7 @@ const requestVillainType = 'REQUEST_VILLAIN';
 const receiveVillainType = 'RECEIVE_VILLAIN';
 const addVillainType = 'ADD_VILLAIN';
 const updateVillainType = 'UPDATE_VILLAIN';
+const deleteVillainType = 'DELETE_VILLAIN';
 const initialState = { villains: [], villain: {}, isLoading: false };
 
 let allvillains = [];
@@ -66,6 +67,20 @@ export const actionCreators = {
         }).then((data) => {
                 dispatch({ type: updateVillainType, villain: data });
             });
+    },
+
+    deleteVillain: (villain) => async (dispatch, getState) => {
+        const baseURL = `/api/villains`;
+
+        const fetchTask = fetch(`${baseURL}/${villain.name}`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            }
+        }).then((data) => {
+                dispatch({ type: deleteVillainType });
+            });
     }
 };
 
@@ -111,6 +126,13 @@ export const reducer = (state, action) => {
     }
 
     if (action.type == updateVillainType) {
+        return {
+            ...state,
+            isLoading: false
+        }
+    }
+
+    if (action.type == deleteVillainType) {
         return {
             ...state,
             isLoading: false

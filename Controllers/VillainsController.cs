@@ -64,6 +64,22 @@ namespace villainy.Controllers
           });
         }
 
+        [HttpDelete("{name}")]
+        public IActionResult Delete(string name)
+        {
+          Console.WriteLine("Delete Villain: " + name);
+          var toDelete = Villains.Find((v) => v.Name == name);
+          if (toDelete == null) return NotFound();
+
+          Villains.Remove(toDelete);
+
+          return Ok(new
+          {
+            success = true,
+            returncode = "200"
+          });
+        }
+
         public class Villain
         {
           public string Name { get; set; }

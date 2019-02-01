@@ -32,6 +32,12 @@ class FellowVillains extends Component {
     setTimeout(this.props.requestVillains, 600);
   }
 
+  handleVillainDelete(villain) {
+    console.log(villain);
+    this.props.deleteVillain(villain);
+    setTimeout(this.props.requestVillains, 600);
+  }
+
   handleEditField(event) {
     if (event.keyCode === 13) {
       let target = event.target,
@@ -51,6 +57,15 @@ class FellowVillains extends Component {
     editVillain.hobbies = this.refs[`hobbies_${itemId}`].value;
 
     this.handleVillainUpdate(editVillain);
+    this.setState({ editing: "" });
+  }
+
+  handleDeleteItem() {
+    let itemId = this.state.editing;
+
+    var deleteVillain = this.props.villains.find((v) => v.name === itemId);
+
+    this.handleVillainDelete(deleteVillain);
     this.setState({ editing: "" });
   }
 
@@ -77,8 +92,11 @@ class FellowVillains extends Component {
               defaultValue={villain.hobbies}
             />
           </td>
-          <td className="col-xs-12 col-sm-3">
+          <td>
             <button onClick={this.handleEditItem.bind(this)} label="Update Item">Update</button>
+          </td>
+          <td>
+            <button onClick={this.handleDeleteItem.bind(this)} label="Delete Item">Delete</button>
           </td>
         </tr>
       )
@@ -90,6 +108,7 @@ class FellowVillains extends Component {
           <td>{villain.name}</td>
           <td>{villain.powers}</td>
           <td>{villain.hobbies}</td>
+          <td></td>
           <td></td>
         </tr>
       )
